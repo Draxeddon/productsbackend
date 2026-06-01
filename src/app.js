@@ -28,18 +28,17 @@ app.use( (req, res, next)=>{
     next();
 });
 
-app.use(helmet());
-app.use(morgan('dev'));
-app.use(express.json());
-app.use(sanitizeMongoInput);
-app.use(cookieParser());
 app.use(cors({
     origin: [process.env.BASE_URL_BACKEND, process.env.BASE_URL_FRONTEND],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type'],
     credentials:true,
-    
 }));
+app.use(helmet());
+app.use(morgan('dev'));
+app.use(express.json());
+app.use(sanitizeMongoInput);
+app.use(cookieParser());
 app.use(express.urlencoded({extended:false}));
 
 //Configuraciones estrictas para prevenir scans
