@@ -81,16 +81,18 @@ export const register = async(req, res) => {
 
         //Verificamos si el token de inicio de sesión lo generamos
         //para el entorno local o para el servidor en la nube
-        if(process.env.ENVIRONMENT == 'local'){
+        if(process.env.ENVIROMENT == 'local'){
+            //El entorno es desarrollo
             res.cookie('token',token,{
-                sameSite: 'lax',
+                sameSite: 'lax', //Para que el back y el front estén locales
             });
-        }else{
+        }else{//El back y el front se encuentran en distintos servidores
+            //Tienen que compartir la cookie
             res.cookie('token', token,{
-                sameSite: 'none',
-                secure: true,
+                sameSite: 'none', //Para peticiones remotas
+                secure: true, //Para activar https en deployment
             });
-        };
+        }; //Fin de if(process.env)
 
         res.json({
             id: userSaved._id,
@@ -126,7 +128,7 @@ export const login = async (req, res) => {
         //Generamos el token de inicio de sesión y retornamos los datos del usuario
         const token = await createAccessToken({id: userFound._id});
 
-        if(process.env.ENVIRONMENT == 'local'){
+        if(process.env.ENVIROMENT == 'local'){
             res.cookie('token',token,{
                 sameSite: 'lax',
             });
@@ -135,7 +137,7 @@ export const login = async (req, res) => {
                 sameSite: 'none',
                 secure: true,
             });
-        };
+        }; //Fin de if(process.env)
         //Obtenemos el rol para el usuario que inició sesión
         //y lo asignamos en el return del usuario
         const role = await Role.findById(userFound.role);
