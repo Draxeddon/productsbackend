@@ -30,10 +30,11 @@ app.use( (req, res, next)=>{
 
 app.use(cors({
     origin: [process.env.BASE_URL_BACKEND, process.env.BASE_URL_FRONTEND],
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type'],
     credentials:true,
 }));
+app.options('*', cors());
 app.use(helmet());
 app.use(morgan('dev'));
 app.use(express.json());
