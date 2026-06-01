@@ -34,7 +34,7 @@ app.use(cors({
     allowedHeaders: ['Content-Type'],
     credentials:true,
 }));
-app.options('*', cors());
+app.options('(.*)', cors());
 app.use(helmet());
 app.use(morgan('dev'));
 app.use(express.json());
